@@ -19,12 +19,16 @@ namespace SaveResponsePlugin
     [ExportMetadata("Author", "@veigr")]
     public class SaveResponsePlugin : IPlugin, ITool
     {
+        dataSender dataSender_;
         private readonly ToolViewModel _vm = new ToolViewModel
         {
             Writer = new ResponseFileWriter(KanColleClient.Current.Proxy)
         };
 
-        public void Initialize() {}
+        public void Initialize() {
+            var sessionId = Guid.NewGuid().ToString();
+            dataSender_ = new dataSender(sessionId);
+        }
 
         public string Name => "SaveResponse";
 
