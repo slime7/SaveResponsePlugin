@@ -35,13 +35,13 @@ namespace SaveResponsePlugin
 
                 string[] prefixes = config.kcsapifilter;
                 var requestUri = session.Request.PathAndQuery.Split('?').First();
-                bool shouldSend = config.url.length && prefixes.Any(prefix => requestUri.StartsWith(prefix));
+                bool shouldSend = config.url.Length > 0 && prefixes.Any(prefix => requestUri.StartsWith(prefix));
                 string gamepost = Regex.Replace(session.Request.BodyAsString, "(api%5Ftoken=\\w{40}&)|(&api%5Ftoken=\\w{40})", "");
-                Uri url = new Uri(config.url);
                 string svdata = session.Response.BodyAsString;
 
                 if (shouldSend)
                 {
+                    Uri url = new Uri(config.url);
                     await SendRequestDataAsync(url, gamepost, svdata, requestUri, config.u);
                 }
             }
@@ -66,6 +66,7 @@ namespace SaveResponsePlugin
                 };
                 var configContent = DynamicJson.Serialize(defaultConfig);
                 File.WriteAllText(CONFIG_FILE, configContent);
+                File.AppendAllText(System.Environment.CurrentDirectory + "/plugins/SaveResponsePlugin.log", e.Message + "\n");
                 return;
             }
         }
