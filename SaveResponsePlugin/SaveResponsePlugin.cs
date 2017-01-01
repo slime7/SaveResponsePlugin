@@ -25,7 +25,8 @@ namespace SaveResponsePlugin
             Writer = new ResponseFileWriter(KanColleClient.Current.Proxy)
         };
 
-        public void Initialize() {
+        public void Initialize()
+        {
             var sessionId = Guid.NewGuid().ToString();
             dataSender_ = new dataSender(sessionId);
         }
@@ -33,6 +34,6 @@ namespace SaveResponsePlugin
         public string Name => "SaveResponse";
 
         // タブ表示するたびに new されてしまうが、今のところ new しないとマルチウィンドウで正常に表示されない
-        public object View => new ToolView {DataContext = _vm};
+        public object View => new ToolView { DataContext = _vm };
     }
 }
